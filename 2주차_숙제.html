@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+​
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+​
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+​
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+​
+    <title>2주차 숙제</title>
+    <style>
+        .target-img {
+            width: 500px;
+            height: 500px;
+            border-radius: 10px;
+            margin:  500px auto 20px auto;
+        }
+​
+        .mytitle{
+            width: 500px;
+            margin: 100px auto; 
+        }
+    
+        .btn{
+            width:100px;
+            margin: auto 200px;        
+        }
+​
+        .custom-select{
+            width: 500px;
+            margin: 5px auto 15px auto;
+        }
+​
+        *{font-family: 'Nanum Pen Script', cursive;}
+​
+        .rate{
+            color: red;
+            font-size: 30px;
+        }
+
+    </style>
+​
+    <script> 
+        
+        function hey () {
+            let txt= $('#name').val();
+            let txt= $('#quantity').val();
+            let txt= $('#address').val();
+            let txt= $('#phone').val();
+
+            if (name == ""){
+              alert('성함을 입력하세요');
+            } else if(quantity == ""){
+                alert('수량을 입력하세요');
+            }else if(address==""){
+                alert('주소를 입력하세요');
+            }else if((phone=="")){
+                alert('전화번호를 입력해주세요');
+            }else{
+                alert('주문이 완료되었습니다!')
+            }
+        }
+        
+            $(document).ready(function () {
+        $.ajax({
+            type: "GET",
+            url: "https://api.manana.kr/exchange/rate.json",
+            dataType: 'json',
+            success: function (json) {
+                const rate = json[1].rate
+                $('#rate').html(`달러-원 환율 : ${rate}`)
+                $(`#rate`).css("color", "white")
+                $(`#rate`).css("font-size", "30px")
+            }
+        })
+    })
+
+    </script>
+    
+      <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+​
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+​
+</head>
+​
+<body>
+​
+    <div class="mytitle">
+        <img class="target-img" src="http://item.ssgcdn.com/91/45/31/item/1000015314591_i1_1200.jpg" />
+​
+        <h1> [롯데] 생수 아이시스 8.0 500ML</h1>
+        <h2> 가격 650원/개 </h2>
+        <p>아이시스8.0은 평균 pH8.0의 천연 약 알칼리수 먹는샘물 브랜드입니다.
+            우리 몸의 생기에너지를 표현한 핑크색 라벨과 풍부한 미네랄, 부드러운 목넘김이 특징인 NATURAL MINERAL WATER입니다.
+            아이시스8.0의 수원지는 엄격한 수질관리기준을 통해 선별되며, 지속적으로 관리되어 믿고 마실 수 있습니다.
+            아이시스8.0은 다양한 패키지를 출시하여 소비자의 음용 편의성을 높이기 위해 꾸준히 노력하고 있습니다.</p>
+​
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default">주문자 성함</span>
+            </div>
+            <input  type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="name">
+        </div>
+
+        <select class="custom-select" id="quantity">
+            <option selected>수량을 선택하세요</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+        </select>
+​
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default">주소</span>
+            </div>
+            <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="address">
+        </div>
+​
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default">전화번호</span>
+            </div>
+            <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="phone">
+        </div>
+​
+        <button onclick="hey()" type="button" class="btn btn-primary">주문하기</button>
+​
+    </div>
+</body>
+​
+</html>
