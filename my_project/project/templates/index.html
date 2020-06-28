@@ -36,8 +36,8 @@
         function make_review() {
 
             let title = $('#title').val();
-            let title = $('#author').val();
-            let title = $('#review').val();
+            let author = $('#author').val();
+            let review = $('#review').val();
 
             if (title == ''){
                 alert('가게이름을 입력해주세요')
@@ -68,25 +68,28 @@
        
 
         function listing() {
-            
+            console.log('listing here')
             $.ajax({
                 type: "GET",
                 url: "/reviews",
                 data: {},
                 success: function (response) {
+                    console.log(response)
                     if (response['result'] == 'success') {
                         
-                        let reviews = response['all_reivew'];
+                        let reviews = response['all_review'];
+                        console.log(reviews)
+                        console.log('it is null?')
                         for(let i = 0; i<reviews.length; i++){
                             let title = reviews[i]['title']
                             let author = reviews[i]['author']
                             let review = reviews[i]['review']
 
-                            let temp_html =    <tr>
+                            let temp_html =    `<tr>
                                                     <td>${title}</td>
                                                     <td>${author}</td>
                                                     <td>${review}</td>
-                                             </tr> 
+                                             </tr>` 
                             $('#orders-box').append(temp_html)
                         }
 
@@ -154,8 +157,8 @@
     <div class="wrap">
         <div class="img"></div>
         <div class="info">
-            <h1>오늘 갔던 맛집에 대해 말씀해주세요.</h1>
-            <p>다른 사람을 위해 리뷰를 남겨주세요! 다같이 맛집을 공유한다면 다 함께 행복해질 수 있지 않을까요?</p>
+            <h1>맛집에 대해 말씀해주세요!</h1>
+            <p>다른 사람을 위해 리뷰를 남겨주세요! 다 같이 맛집을 공유한다면 다 함께 행복해질 수 있지 않을까요?</p>
         </div>
         <div class="info">
             <div class="input-group mb-3">
