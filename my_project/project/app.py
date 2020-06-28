@@ -16,6 +16,7 @@ def write_review():
     title_receive = request.form['title_give']
     author_receive = request.form['author_give']
     review_receive = request.form['review_give']
+    print("here")
 
     doc = {
         'title': title_receive,
