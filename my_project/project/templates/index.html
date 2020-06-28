@@ -1,19 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    
     <title>오늘의 맛집</title>
-
-    
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
-    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
         integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
@@ -21,40 +13,31 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
-
-    
     <link href="https://fonts.googleapis.com/css?family=Stylish&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Do+Hyeon&display=swap" rel="stylesheet">
-
     <script type="text/javascript">
-
         $(document).ready(function () {
             $('#orders-box').html('');
             listing();
         });
-
         function make_review() {
-
             let title = $('#title').val();
             let author = $('#author').val();
             let review = $('#review').val();
-
-            if (title == ''){
+            if (title == '') {
                 alert('가게이름을 입력해주세요')
                 return
-            } else if(author == ''){
+            } else if (author == '') {
                 alert('위치을 입력해주세요')
                 return
-            } else if(review == ''){
+            } else if (review == '') {
                 alert('리뷰를 입력해주세요')
                 return
-            } 
-
-           
+            }
             $.ajax({
-                type: 'POST', 
-                url: '/reviews', 
-                data: {title_give:title, author_give:author, review_give:review}, 
+                type: 'POST',
+                url: '/reviews',
+                data: { title_give: title, author_give: author, review_give: review },
                 success: function (response) {
                     if (response['result'] == 'success') {
                         alert(response['msg']);
@@ -62,12 +45,11 @@
                     }
                 }
             });
-            
         }
-
-       
-
-        function listing() {
+        function listing(filterStr) {
+            $('#orders-box').empty()
+            console.log("filterStr")
+            console.log(filterStr)
             console.log('listing here')
             $.ajax({
                 type: "GET",
@@ -76,31 +58,44 @@
                 success: function (response) {
                     console.log(response)
                     if (response['result'] == 'success') {
-                        
                         let reviews = response['all_review'];
                         console.log(reviews)
                         console.log('it is null?')
-                        for(let i = 0; i<reviews.length; i++){
-                            let title = reviews[i]['title']
-                            let author = reviews[i]['author']
-                            let review = reviews[i]['review']
-
-                            let temp_html =    `<tr>
+                        for (let i = 0; i < reviews.length; i++) {
+                            if (filterStr) {
+                                let title = reviews[i]['title']
+                                let author = reviews[i]['author']
+                                let review = reviews[i]['review']
+                                let temp_html = `<tr>
                                                     <td>${title}</td>
                                                     <td>${author}</td>
                                                     <td>${review}</td>
-                                             </tr>` 
-                            $('#orders-box').append(temp_html)
+                                             </tr>`
+                                if (title.includes(filterStr)) {
+                                    $('#orders-box').append(temp_html)
+                                }
+                            } else {
+                                let title = reviews[i]['title']
+                                let author = reviews[i]['author']
+                                let review = reviews[i]['review']
+                                let temp_html = `<tr>
+                                                    <td>${title}</td>
+                                                    <td>${author}</td>
+                                                    <td>${review}</td>
+                                             </tr>`
+                                $('#orders-box').append(temp_html)
+                            }
                         }
-
-                        
                     } else {
                         alert('리뷰를 받아오지 못했습니다');
                     }
                 }
             });
         }
-
+        function search() {
+            const text = $("#search-input").val()
+            listing(text)
+        }
         function is_long(obj) {
             let content = $(obj).val();
             if (content.length > 140) {
@@ -109,17 +104,14 @@
             }
         }
     </script>
-
     <style type="text/css">
         * {
             font-family: 'Do Hyeon', sans-serif;
         }
-
         .wrap {
             width: 500px;
             margin: auto;
         }
-
         .img {
             background-image: url('https://i.ytimg.com/vi/Q-57y7KQUQc/maxresdefault.jpg');
             background-size: cover;
@@ -127,33 +119,26 @@
             width: 500px;
             height: 300px;
         }
-
         .info {
             margin-top: 20px;
             margin-bottom: 20px;
         }
-
         .user-info {
             margin: 20px 5px auto 5px;
         }
-
         h1,
         h5 {
             display: inline;
         }
-
         .order {
             text-align: center;
         }
-
         .orders {
             margin-top: 100px;
         }
     </style>
 </head>
-
 <body>
-
     <div class="wrap">
         <div class="img"></div>
         <div class="info">
@@ -184,6 +169,7 @@
                 <button onclick="make_review()" type="button" class="btn btn-primary">리뷰 작성하기</button>
             </div>
         </div>
+        <input style="width: 100%;" type="text" id="search-input" placeholder="검색하기" onchange="search()" />
         <div class="orders">
             <table class="table">
                 <thead>
@@ -194,15 +180,9 @@
                     </tr>
                 </thead>
                 <tbody id="orders-box">
-                    <tr>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                        <td>@mdo</td>
-                    </tr>
                 </tbody>
             </table>
         </div>
     </div>
 </body>
-
 </html>
